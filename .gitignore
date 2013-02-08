@@ -33,3 +33,10 @@ nosetests.xml
 
 # Jetbrains PyCharm project file
 .idea
+
+# Vagrant
+.vagrant
+*.box
+boxes
+.tmp
+Vagrantfile.pkg

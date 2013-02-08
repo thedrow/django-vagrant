@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |config|
+  config.package.name = 'django_devenv.box'
+  config.vm.box = "ubuntu"
+
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  config.vm.forward_port 80, 8080
+    config.vm.provision :puppet do |puppet|
+       puppet.manifests_path = "manifests"
+       puppet.manifest_file  = "init.pp"
+       puppet.module_path = "modules"
+     end
+end
