@@ -4,4 +4,5 @@
 #
 #     pip install -r development.txt
 
-Django>=1.4
+Fabric>=1.5
+django-discoverage>=0.5
