@@ -11,3 +11,8 @@ class Role(object):
 
         self.name = name
         self.box_path = box_path
+
+
+class Node(object):
+    def __init__(self, name, ip, role, domain=None):
+        pass
