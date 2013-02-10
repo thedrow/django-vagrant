@@ -9,7 +9,7 @@ from vagrant.config import Node
 class NodeFactory(Factory):
     FACTORY_FOR = Node
 
-    name = 'test'
+    name = 'testnode'
     ip = '172.16.32.10'
     role = SubFactory(RoleFactory)
     domain = 'domain.com'
@@ -36,13 +36,26 @@ class NodeInitializationFailureTests(NodeTestCase):
 
 
 class NodeInitializationSuccessTests(NodeTestCase):
+    def test_that_when_a_node_name_is_not_provided_the_role_name_is_used_as_the_node_name(self):
+        with patch('os.path.isfile', return_value=True), patch('os.path.splitext',
+                                                               return_value=('./boxes/box', '.box')):
+            sut = self.SUTFactory(name='')
+
+            try:
+                self.assertEqual(sut.hostname, 'test.domain.com')
+            except AttributeError, e:
+                if e.message == "'Node' object has no attribute 'hostname'":  # Expected failure.
+                    raise AssertionError(e.message)
+                else:
+                    raise
+
     def test_that_when_providing_a_node_name_without_a_domain_it_is_assigned_to_the_hostname_attribute(self):
         with patch('os.path.isfile', return_value=True), patch('os.path.splitext',
                                                                return_value=('./boxes/box', '.box')):
-            sut = self.SUTFactory(domain=None)
+            sut = self.SUTFactory(domain='')
 
             try:
-                self.assertEqual(sut.hostname, 'test')
+                self.assertEqual(sut.hostname, 'testnode')
             except AttributeError, e:
                 if e.message == "'Node' object has no attribute 'hostname'":  # Expected failure.
                     raise AssertionError(e.message)
@@ -56,7 +69,7 @@ class NodeInitializationSuccessTests(NodeTestCase):
             sut = self.SUTFactory()
 
             try:
-                self.assertEqual(sut.hostname, 'test.domain.com')
+                self.assertEqual(sut.hostname, 'testnode.domain.com')
             except AttributeError, e:
                 if e.message == "'Node' object has no attribute 'hostname'":  # Expected failure.
                     raise AssertionError(e.message)

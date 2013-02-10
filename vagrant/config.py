@@ -14,10 +14,14 @@ class Role(object):
 
 
 class Node(object):
-    def __init__(self, name, ip, role, domain=''):
+    def __init__(self, ip, role, domain='', name=''):
         if not isinstance(role, Role):
             raise TypeError('role must be a Role object.')
 
         self.ip = ip
         self.role = role
+
+        if name == '':
+            name = role.name
+
         self.hostname = name + ('.' + domain if domain else '')
