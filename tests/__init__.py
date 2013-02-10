@@ -33,8 +33,8 @@ def run_tests(verbosity=1):
 
     setup_test_environment()
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=verbosity)
-    failures = test_runner.run_tests(('unit', 'functional', 'integration'))
+    test_runner = TestRunner(verbosity=verbosity, failfast=False)
+    failures = test_runner.run_tests(())
 
     if failures:
         sys.exit(failures)
